@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,17 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
+@ConfigurationProperties(prefix="endpoints")
 public class CurrencyConversionController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	private String forex_service_endpoint;
+	private String forex_service;
 	
-	public String getForex_service_endpoint() {
-		return forex_service_endpoint;
+	public String getForex_servicet() {
+		return forex_service;
 	}
 
-	public void setForex_service_endpoint(String forex_service_endpoint) {
-		this.forex_service_endpoint = forex_service_endpoint;
+	public void setForex_service(String forex_service) {
+		this.forex_service = forex_service;
 	}
 
 	@GetMapping("/currency-converter/from/{from}/to/{to}/quantity/{quantity}")
@@ -36,7 +38,7 @@ public class CurrencyConversionController {
 		uriVariables.put("to", to);
 		
 		ResponseEntity<CurrencyConversionBean> responseEntity = new RestTemplate().getForEntity(
-				 forex_service_endpoint + "/currency-exchange/from/{from}/to/{to}", CurrencyConversionBean.class, uriVariables);
+				 forex_service + "/currency-exchange/from/{from}/to/{to}", CurrencyConversionBean.class, uriVariables);
 		
 		CurrencyConversionBean response = responseEntity.getBody();
 		
