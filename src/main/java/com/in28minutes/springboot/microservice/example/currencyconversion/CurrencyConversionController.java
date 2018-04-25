@@ -19,14 +19,6 @@ public class CurrencyConversionController {
 	
 	private String forex_service;
 	
-	public String getForex_servicet() {
-		return forex_service;
-	}
-
-	public void setForex_service(String forex_service) {
-		this.forex_service = forex_service;
-	}
-
 	@GetMapping("/currency-converter/from/{from}/to/{to}/quantity/{quantity}")
 	public CurrencyConversionBean convertCurrency(@PathVariable String from, 
 			@PathVariable String to, @PathVariable BigDecimal quantity) {
@@ -44,5 +36,13 @@ public class CurrencyConversionController {
 		
 		return new CurrencyConversionBean(response.getId(), from, to, response.getConversionMultiple(), 
 				quantity, quantity.multiply(response.getConversionMultiple()), response.getPort());
+	}
+	
+	public String getForex_servicet() {
+		return forex_service;
+	}
+
+	public void setForex_service(String forex_service) {
+		this.forex_service = forex_service;
 	}
 }
